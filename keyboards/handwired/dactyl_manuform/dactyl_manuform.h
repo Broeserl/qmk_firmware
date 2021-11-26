@@ -18,6 +18,8 @@
 #    include "62key.h"
 #elif defined(KEYBOARD_handwired_dactyl_manuform_broeserls_5x7)
 #    include "broeserls_5x7.h"
+#elif defined(KEYBOARD_handwired_dactyl_manuform_broeserl_test_all_keys)
+#    include "broeserl_test_all_keys.h"
 #endif
 
 #include "quantum.h"
