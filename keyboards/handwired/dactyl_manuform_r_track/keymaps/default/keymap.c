@@ -34,15 +34,28 @@
 #include "pointing_device.h"
 #include "../../pmw3360/pmw3360.h"
 
+#define SET_CPI 1600
+#define MAX_MULTI 75
+#define MIN_MULTI 25
+#define DEF_MULTI (MAX_MULTI + MIN_MULTI) / 2
+#define MULTI_STEPS 5
+
 int16_t sensor_x = 0;
 int16_t sensor_y = 0;
-
-uint16_t cursor_multiplier = 50;	// adjust cursor speed
+uint16_t cursor_multiplier = DEF_MULTI;	// adjust cursor speed
 int16_t cur_factor;
 
 /***************************
  * Custom Keycodes and Layers
  **************************/
+
+enum custom_keycodes {
+  DPI_S = SAFE_RANGE,
+  DPI_M,
+  DPI_F,
+  DPI_U,
+  DPI_D
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -56,7 +69,6 @@ KC_LCTL, KC_NUBS, KC_NUHS, KC_LGUI,                                           KC
                                   TG(2),   KC_LALT,        KC_SPC,  KC_ENT,
                                   OSL(1),  KC_LCTL,        OSL(1),  KC_RCTL
 ),
-
 [_SPECIAL_KEYS] = LAYOUT_5x6(
 KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,           KC_F6,    KC_F7,  KC_F8,   KC_F9,    KC_F10,   KC_F11,
 S(DE_7),  S(DE_1),  DE_AT,    DE_LCBR,  DE_RCBR,  DE_PIPE,         KC_NO,    KC_7,   KC_8,    KC_9,     DE_ASTR,  KC_F12,
@@ -69,16 +81,39 @@ KC_NO,    KC_NO,    KC_NO,    KC_NO,                                            
 ),
 [_MOVEMENT] = LAYOUT_5x6(
 KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,                 KC_NO,  KC_NO,    KC_NO,    KC_NO,    KC_NO,  KC_NO,
-KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_WH_U,               KC_NO,  KC_NO,    KC_NO,    KC_NO,    KC_NO,  KC_NO,
-KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_WH_D,               KC_NO,  KC_BTN1,  KC_BTN3,  KC_BTN2,  KC_NO,  KC_NO,
-KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,                 KC_NO,  KC_NO,    KC_NO,    KC_NO,    KC_NO,  KC_NO,
+KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_WH_U,               DPI_F,  KC_NO,    KC_NO,    KC_NO,    KC_NO,  KC_NO,
+KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_WH_D,               DPI_M,  KC_BTN1,  KC_BTN3,  KC_BTN2,  KC_NO,  KC_NO,
+KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,                 DPI_S,  KC_NO,    KC_NO,    KC_NO,    KC_NO,  KC_NO,
 KC_NO,  KC_NO,  KC_NO,  KC_NO,                                                   KC_NO,    KC_NO,    KC_NO,  KC_NO,
                                   KC_PGDOWN,  KC_PGUP,
                                   TG(2),      KC_NO,       KC_NO,  KC_NO,
-                                  KC_NO,      KC_NO,       KC_NO,  KC_RCTL
-
+                                  DPI_U,      DPI_D,       KC_NO,  KC_RCTL
 ),
 };
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case DPI_S:
+      cursor_multiplier = MIN_MULTI;
+      return true;
+    case DPI_M:
+      cursor_multiplier = DEF_MULTI;
+      return true;
+    case DPI_F:
+      cursor_multiplier = MAX_MULTI;
+      return true;
+    case DPI_U:
+      if (cursor_multiplier <= MAX_MULTI - MULTI_STEPS)
+        cursor_multiplier += MULTI_STEPS;
+      return true;
+    case DPI_D:
+      if (cursor_multiplier >= MIN_MULTI - MULTI_STEPS)
+        cursor_multiplier -= MULTI_STEPS;
+      return true;
+    default:
+      return true;
+  }
+}
 
 /***************************
  * Trackball handling
@@ -86,19 +121,14 @@ KC_NO,  KC_NO,  KC_NO,  KC_NO,                                                  
 
 void pointing_device_init(void){
   config_pmw_t cfg;
-  cfg.cpi = 1600;
+  cfg.cpi = SET_CPI;
 	if(!is_keyboard_master())
 		return;
 	pmw_init();
   pmw_set_config(cfg);
 }
 
-int max(int num1, int num2) { return (num1 > num2 ) ? num1 : num2; }
-int min(int num1, int num2) { return (num1 > num2 ) ? num2 : num1; }
-
-int8_t sign(int x) { return (x > 0) - (x < 0); }
 int8_t CLAMP_HID(int value) { return value < -127 ? -127 : value > 127 ? 127 : value; }
-
 
 void handle_pointing_device_modes(void){
 	report_mouse_t mouse_report = pointing_device_get_report();
@@ -121,6 +151,8 @@ void get_sensor_data(void) {
 }
 
 void pointing_device_task(void) {
-	get_sensor_data();
-	handle_pointing_device_modes();
+  if (layer_state_is(_MOVEMENT)) {
+	  get_sensor_data();
+	  handle_pointing_device_modes();
+  }
 }
