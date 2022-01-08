@@ -86,7 +86,7 @@ KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_WH_D,               DPI_M,  KC_BTN1, 
 KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,                 DPI_S,  KC_NO,    KC_NO,    KC_NO,    KC_NO,  KC_NO,
 KC_NO,  KC_NO,  KC_NO,  KC_NO,                                                   KC_NO,    KC_NO,    KC_NO,  KC_NO,
                                   KC_PGDOWN,  KC_PGUP,
-                                  TG(2),      KC_NO,       KC_NO,  KC_NO,
+                                  TG(2),      KC_LSFT,     KC_NO,  KC_NO,
                                   DPI_U,      DPI_D,       KC_NO,  KC_RCTL
 ),
 };
