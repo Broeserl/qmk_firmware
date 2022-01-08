@@ -152,9 +152,8 @@ void pmw_init(void) {
     pmw_read(SROM_ID);
     //Write 0x00 to Config2 register for wired mouse or 0x20 for wireless mouse design.
     pmw_write(Config2, 0x00);
-    // // set initial CPI resolution
-    // ////pmw_write(Config1, 0x15); // was this
-	pmw_write(Config1, 0x07);
+    // set initial CPI resolution
+   	pmw_write(Config1, 0x07);
     pmw_end();
     wait_ms(10);
 }
