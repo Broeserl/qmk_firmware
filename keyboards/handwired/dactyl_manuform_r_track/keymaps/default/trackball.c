@@ -18,34 +18,6 @@
 
 #include "trackball.h"
 
-//#ifndef OPT_DEBOUNCE
-//#    define OPT_DEBOUNCE 5  // (ms) 			Time between scroll events
-//#endif
-//#ifndef SCROLL_BUTT_DEBOUNCE
-//#    define SCROLL_BUTT_DEBOUNCE 100  // (ms) 			Time between scroll events
-//#endif
-//#ifndef OPT_THRES
-//#    define OPT_THRES 150  // (0-1024) 	Threshold for actication
-//#endif
-//#ifndef OPT_SCALE
-//#    define OPT_SCALE 1  // Multiplier for wheel
-//#endif
-//#ifndef PLOOPY_DPI_OPTIONS
-//#    define PLOOPY_DPI_OPTIONS { 1200, 1600, 2400 }
-//#    ifndef PLOOPY_DPI_DEFAULT
-//#        define PLOOPY_DPI_DEFAULT 1
-//#    endif
-//#endif
-//#ifndef PLOOPY_DPI_DEFAULT
-//#    define PLOOPY_DPI_DEFAULT 0
-//#endif
-//#ifndef PLOOPY_DRAGSCROLL_DPI
-//#    define PLOOPY_DRAGSCROLL_DPI 100 // Fixed-DPI Drag Scroll
-//#endif
-//#ifndef PLOOPY_DRAGSCROLL_MULTIPLIER
-//#    define PLOOPY_DRAGSCROLL_MULTIPLIER 0.75 // Variable-DPI Drag Scroll
-//#endif
-
 keyboard_config_t keyboard_config;
 uint16_t          dpi_array[] = PLOOPY_DPI_OPTIONS;
 #define DPI_OPTION_SIZE (sizeof(dpi_array) / sizeof(uint16_t))
