@@ -17,10 +17,10 @@ BOOTLOADER = atmel-dfu # right
 #   change yes to no to disable
 #
 BOOTMAGIC_ENABLE = no       # Virtual DIP switch configuration
-MOUSEKEY_ENABLE = no       # Mouse keys
+MOUSEKEY_ENABLE = yes       # Mouse keys
 EXTRAKEY_ENABLE = no       # Audio control and System control
-CONSOLE_ENABLE = yes        # Console for debug
-COMMAND_ENABLE = yes        # Commands for debug and configuration
+CONSOLE_ENABLE = no        # Console for debug
+COMMAND_ENABLE = no        # Commands for debug and configuration
 # Do not enable SLEEP_LED_ENABLE. it uses the same timer as BACKLIGHT_ENABLE
 SLEEP_LED_ENABLE = no       # Breathing sleep LED during USB suspend
 # if this doesn't work, see here: https://github.com/tmk/tmk_keyboard/wiki/FAQ#nkro-doesnt-work
@@ -42,3 +42,5 @@ POINTING_DEVICE_ENABLE = yes
 
 SRC += pmw3360/pmw3360.c
 COMBO_ENABLE = no
+
+FLAGS += -flto

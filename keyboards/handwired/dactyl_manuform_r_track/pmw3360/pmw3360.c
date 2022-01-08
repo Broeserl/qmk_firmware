@@ -55,7 +55,7 @@
 #define LiftCutoff_Tune2  0x65
 
 // pins
-#define NCS B0
+#define NCS F7
 
 #define CLAMP_CPI(value) value < 0 ? 0 : value > 0x77 ? 0x77 : value
 
