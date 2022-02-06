@@ -34,9 +34,9 @@
 #include "pointing_device.h"
 #include "../../pmw3360/pmw3360.h"
 
-#define SET_CPI 1600
-#define MAX_MULTI 75
-#define MIN_MULTI 25
+#define SET_CPI 800
+#define MAX_MULTI 150
+#define MIN_MULTI 50
 #define DEF_MULTI (MAX_MULTI + MIN_MULTI) / 2
 #define MULTI_STEPS 5
 
@@ -52,42 +52,40 @@ int16_t cur_factor;
 enum custom_keycodes {
   DPI_S = SAFE_RANGE,
   DPI_M,
-  DPI_F,
-  DPI_U,
-  DPI_D
+  DPI_F
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_DEFAULT] = LAYOUT_5x6(
-KC_ESC,  KC_1,    KC_2,    KC_3,   KC_4,   KC_5,            KC_6,    KC_7,    KC_8,     KC_9,     KC_0,     KC_MINS,
-KC_TAB,  KC_Q,    KC_W,    KC_E,   KC_R,   KC_T,            KC_Y,    KC_U,    KC_I,     KC_O,     KC_P,     KC_LBRC,
-KC_NO,   KC_A,    KC_S,    KC_D,   KC_F,   KC_G,            KC_H,    KC_J,    KC_K,     KC_L,     KC_SCLN,  KC_QUOT,
-KC_LSFT, KC_Z,    KC_X,    KC_C,   KC_V,   KC_B,            KC_N,    KC_M,    KC_COMM,  KC_DOT,   KC_SLSH,  KC_RSFT,
-KC_LCTL, KC_NUBS, KC_NUHS, KC_LGUI,                                           KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,
-                                  KC_BSPC, KC_DEL,
-                                  TG(2),   KC_LALT,        KC_SPC,  KC_ENT,
-                                  OSL(1),  KC_LCTL,        OSL(1),  KC_RCTL
+KC_ESC,     KC_1,       KC_2,       KC_3,       KC_4,       KC_5,                                       KC_6,       KC_7,       KC_8,       KC_9,       KC_0,       KC_MINS,
+KC_TAB,     KC_Q,       KC_W,       KC_E,       KC_R,       KC_T,                                       KC_Y,       KC_U,       KC_I,       KC_O,       KC_P,       KC_LBRC,
+KC_NO,      KC_A,       KC_S,       KC_D,       KC_F,       KC_G,                                       KC_H,       KC_J,       KC_K,       KC_L,       KC_SCLN,    KC_QUOT,
+KC_LSFT,    KC_Z,       KC_X,       KC_C,       KC_V,       KC_B,                                       KC_N,       KC_M,       KC_COMM,    KC_DOT,     KC_SLSH,    KC_RSFT,
+KC_LCTL,    KC_NUBS,    KC_NUHS,    KC_LGUI,                                                                                    KC_LEFT,    KC_DOWN,    KC_UP,      KC_RGHT,
+                                                            KC_BSPC,    KC_DEL,
+                                                            TG(2),      KC_LALT,            KC_SPC,     KC_ENT,
+                                                            OSL(1),     KC_LCTL,            OSL(1),     KC_RCTL
 ),
 [_SPECIAL_KEYS] = LAYOUT_5x6(
-KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,           KC_F6,    KC_F7,  KC_F8,   KC_F9,    KC_F10,   KC_F11,
-S(DE_7),  S(DE_1),  DE_AT,    DE_LCBR,  DE_RCBR,  DE_PIPE,         KC_NO,    KC_7,   KC_8,    KC_9,     DE_ASTR,  KC_F12,
-DE_BSLS,  DE_HASH,  S(DE_4),  S(DE_8),  S(DE_9),  DE_CIRC,         KC_NO,    KC_4,   KC_5,    KC_6,     DE_PLUS,  KC_NO,
-DE_GRV,   DE_LABK,  DE_RABK,  DE_LBRC,  DE_RBRC,  DE_TILD,         DE_AMPR,  KC_1,   KC_2,    KC_3,     DE_SLSH,  KC_NO,
-KC_NO,    KC_NO,    KC_NO,    KC_NO,                                                 KC_0,    DE_COMM,  DE_EQL,   KC_NO,
-                                  KC_NO,   KC_NO,
-                                  KC_NO,   KC_NO,                 KC_NO,  KC_NO,
-                                  KC_NO,   KC_NO,                 RESET,  KC_NO
+KC_ESC,     KC_F1,      KC_F2,      KC_F3,      KC_F4,      KC_F5,                                      KC_F6,      KC_F7,      KC_F8,      KC_F9,      KC_F10,     KC_F11,
+S(DE_7),    S(DE_1),    DE_AT,      DE_LCBR,    DE_RCBR,    DE_PIPE,                                    KC_NO,      KC_7,       KC_8,       KC_9,       DE_ASTR,    KC_F12,
+DE_BSLS,    DE_HASH,    S(DE_4),    S(DE_8),    S(DE_9),    DE_CIRC,                                    KC_NO,      KC_4,       KC_5,       KC_6,       DE_PLUS,    KC_NO,
+DE_GRV,     DE_LABK,    DE_RABK,    DE_LBRC,    DE_RBRC,    DE_TILD,                                    DE_AMPR,    KC_1,       KC_2,       KC_3,       DE_SLSH,    KC_NO,
+KC_NO,      KC_NO,      KC_NO,      KC_NO,                                                                                      KC_0,       DE_COMM,    DE_EQL,     KC_NO,
+                                                            KC_NO,      KC_NO,
+                                                            KC_NO,      KC_NO,              KC_NO,      KC_NO,
+                                                            KC_NO,      KC_NO,              RESET,      KC_NO
 ),
 [_MOVEMENT] = LAYOUT_5x6(
-KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,                 KC_NO,  KC_NO,    KC_NO,    KC_NO,    KC_NO,  KC_NO,
-KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_WH_U,               DPI_F,  KC_NO,    KC_NO,    KC_NO,    KC_NO,  KC_NO,
-KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_WH_D,               DPI_M,  KC_BTN1,  KC_BTN3,  KC_BTN2,  KC_NO,  KC_NO,
-KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,                 DPI_S,  KC_NO,    KC_NO,    KC_NO,    KC_NO,  KC_NO,
-KC_NO,  KC_NO,  KC_NO,  KC_NO,                                                   KC_NO,    KC_NO,    KC_NO,  KC_NO,
-                                  KC_PGDOWN,  KC_PGUP,
-                                  TG(2),      KC_LSFT,     KC_NO,  KC_NO,
-                                  DPI_U,      DPI_D,       KC_NO,  KC_RCTL
+KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,                                      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,
+KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_WH_U,                                    DPI_F,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,
+KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_WH_D,                                    DPI_M,      KC_BTN1,    KC_BTN3,    KC_BTN2,    KC_NO,      KC_NO,
+KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,                                      DPI_S,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,
+KC_NO,      KC_NO,      KC_NO,      KC_NO,                                                                                      KC_NO,      KC_NO,      KC_NO,      KC_NO,
+                                                            KC_PGDOWN,  KC_PGUP,
+                                                            TG(2),      KC_LSFT,            KC_NO,      KC_NO,
+                                                            KC_NO,      KC_LCTL,            KC_NO,      KC_RCTL
 ),
 };
 
@@ -101,14 +99,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return true;
     case DPI_F:
       cursor_multiplier = MAX_MULTI;
-      return true;
-    case DPI_U:
-      if (cursor_multiplier <= MAX_MULTI - MULTI_STEPS)
-        cursor_multiplier += MULTI_STEPS;
-      return true;
-    case DPI_D:
-      if (cursor_multiplier >= MIN_MULTI - MULTI_STEPS)
-        cursor_multiplier -= MULTI_STEPS;
       return true;
     default:
       return true;
