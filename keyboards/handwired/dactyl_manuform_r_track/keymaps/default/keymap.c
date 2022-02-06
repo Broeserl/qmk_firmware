@@ -78,13 +78,13 @@ KC_NO,      KC_NO,      KC_NO,      KC_NO,                                      
                                                             KC_NO,      KC_NO,              RESET,      KC_NO
 ),
 [_MOVEMENT] = LAYOUT_5x6(
-KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,                                      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,
-KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_WH_U,                                    DPI_F,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,
-KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_WH_D,                                    DPI_M,      KC_BTN1,    KC_BTN3,    KC_BTN2,    KC_NO,      KC_NO,
-KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,                                      DPI_S,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,
+KC_ESC,     KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,                                      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,
+KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_PGUP,                                    KC_NO,      KC_BTN4,    KC_BTN5,    KC_NO,      KC_NO,      DPI_F,
+KC_NO,      C(KC_A),    KC_NO,      KC_NO,      C(KC_F),    KC_PGDOWN,                                  KC_WH_L,    KC_BTN1,    KC_BTN3,    KC_BTN2,    KC_WH_R,    DPI_M,
+KC_NO,      KC_NO,      KC_NO,      C(KC_C),    C(KC_V),    KC_NO,                                      KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,      DPI_S,
 KC_NO,      KC_NO,      KC_NO,      KC_NO,                                                                                      KC_NO,      KC_NO,      KC_NO,      KC_NO,
-                                                            KC_PGDOWN,  KC_PGUP,
-                                                            TG(2),      KC_LSFT,            KC_NO,      KC_NO,
+                                                            KC_WH_D,    KC_WH_U,
+                                                            TG(2),      KC_LSFT,            KC_NO,      KC_ENT,
                                                             KC_NO,      KC_LCTL,            KC_NO,      KC_RCTL
 ),
 };
